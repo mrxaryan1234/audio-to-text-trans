@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Audio to Text</title>
+</head>
+<body>
+  <h2>🎙 Audio to Text Converter (English + Hindi)</h2>
+  <input type="file" id="fileInput" accept="audio/*">
+  <button onclick="uploadAudio()">Convert</button>
+  <pre id="result"></pre>
+
+  <script>
+    async function uploadAudio() {
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) return alert("Please select an audio file");
+
+      let formData = new FormData();
+      formData.append("file", file);
+
+      document.getElementById("result").innerText = "Processing...";
+
+      const response = await fetch("/transcribe", {
+        method: "POST",
+        body: formData
+      });
+
+      const text = await response.text();
+      document.getElementById("result").innerText = text;
+    }
+  </script>
+</body>
+</html>
